@@ -1,7 +1,8 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
-import { Heart, Eye, FileText } from 'lucide-react';
+import { Heart, Eye, FileText, MessageSquare } from 'lucide-react';
 import ReviewDialog from './ReviewDialog';
 
 export interface Movie {
@@ -62,52 +63,57 @@ const MovieCard = ({ movie, onToggleLike, onToggleWatchlist }: MovieCardProps) =
   };
 
   return (
-    <div className="movie-card flex flex-col h-full">
-      <h3 className="text-lg font-semibold mb-2">{movie.title}</h3>
-      <p className="text-sm text-muted-foreground mb-1">by {movie.director}</p>
-      <p className="text-xs text-muted-foreground mb-4">
-        Cast: {movie.cast.join(', ')}
-      </p>
-      
-      <div className="flex space-x-2 mb-4 mt-auto">
-        <Button 
-          onClick={handleLike}
-          variant="ghost" 
-          size="sm"
-          className={`secondary-button flex-1 ${isLiked ? 'bg-primaryAccent' : ''}`}
-        >
-          <Heart className="w-4 h-4 mr-1" />
-          <span className="text-xs">Like</span>
-        </Button>
-        
-        <Button 
-          onClick={handleWatchlist}
-          variant="ghost" 
-          size="sm"
-          className={`secondary-button flex-1 ${inWatchlist ? 'bg-primaryAccent' : ''}`}
-        >
-          <Eye className="w-4 h-4 mr-1" />
-          <span className="text-xs">Watchlist</span>
-        </Button>
-        
-        <Button 
-          onClick={handleAddReview}
-          variant="ghost" 
-          size="sm"
-          className="secondary-button flex-1"
-        >
-          <FileText className="w-4 h-4 mr-1" />
-          <span className="text-xs">Review</span>
-        </Button>
+    <div className="movie-card flex flex-col h-full justify-between">
+      <div>
+        <h3 className="text-lg font-semibold mb-2">{movie.title}</h3>
+        <p className="text-sm text-muted-foreground mb-1">by {movie.director}</p>
+        <p className="text-xs text-muted-foreground mb-4">
+          Cast: {movie.cast.join(', ')}
+        </p>
       </div>
       
-      <Button 
-        onClick={() => setShowReviews(true)}
-        variant="ghost" 
-        className="secondary-button w-full"
-      >
-        View Reviews
-      </Button>
+      <div className="mt-auto">
+        <div className="flex space-x-2 mb-2">
+          <Button 
+            onClick={handleLike}
+            variant="ghost" 
+            size="sm"
+            className={`flex-1 ${isLiked ? 'bg-primaryAccent' : ''}`}
+          >
+            <Heart className="w-4 h-4 mr-1" />
+            <span className="text-xs">Like</span>
+          </Button>
+          
+          <Button 
+            onClick={handleWatchlist}
+            variant="ghost" 
+            size="sm"
+            className={`flex-1 ${inWatchlist ? 'bg-primaryAccent' : ''}`}
+          >
+            <Eye className="w-4 h-4 mr-1" />
+            <span className="text-xs">Watchlist</span>
+          </Button>
+          
+          <Button 
+            onClick={handleAddReview}
+            variant="ghost" 
+            size="sm"
+            className="flex-1"
+          >
+            <FileText className="w-4 h-4 mr-1" />
+            <span className="text-xs">Review</span>
+          </Button>
+        </div>
+        
+        <Button 
+          onClick={() => setShowReviews(true)}
+          variant="ghost" 
+          className="secondary-button w-full"
+        >
+          <MessageSquare className="w-4 h-4 mr-2" />
+          View Reviews
+        </Button>
+      </div>
 
       <ReviewDialog
         open={showReviews}
