@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MovieCard, { Movie } from '@/components/MovieCard';
 import Pagination from '@/components/Pagination';
 import Navbar from '@/components/Navbar';
@@ -13,12 +12,16 @@ const Dashboard = () => {
 
   const handleSearch = (query: string) => {
     const searchTerm = query.toLowerCase();
-    const filtered = mockMovies.filter(movie => 
-      movie.title.toLowerCase().includes(searchTerm) ||
-      movie.director.toLowerCase().includes(searchTerm) ||
-      movie.cast.some(actor => actor.toLowerCase().includes(searchTerm))
-    );
-    setFilteredMovies(filtered);
+    if (!searchTerm) {
+      setFilteredMovies(mockMovies);
+    } else {
+      const filtered = mockMovies.filter(movie => 
+        movie.title.toLowerCase().includes(searchTerm) ||
+        movie.director.toLowerCase().includes(searchTerm) ||
+        movie.cast.some(actor => actor.toLowerCase().includes(searchTerm))
+      );
+      setFilteredMovies(filtered);
+    }
     setCurrentPage(1);
   };
 
@@ -55,10 +58,8 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   };
 
-  // Calculate total pages
   const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
   
-  // Get current movies
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
   const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
